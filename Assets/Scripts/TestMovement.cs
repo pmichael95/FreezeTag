@@ -14,6 +14,7 @@ public class TestMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         if (Input.GetKey(KeyCode.W))
         {
             // Move forward
