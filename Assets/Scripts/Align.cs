@@ -19,6 +19,7 @@ public class Align : MonoBehaviour {
     }
 
     void Update() {
+        target = GetComponent<Seek>().target;
         if (hasTarget) {
             //Figure out where you want to face, then use the mentioned functions to make it happen
             goalFacing = (target.transform.position - transform.position).normalized;

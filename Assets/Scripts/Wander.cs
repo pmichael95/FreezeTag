@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Wander : MonoBehaviour {
-
-    public bool canWander = true;
+    
     float wanderCircleCenterOffset = 50.0f;
     float wanderCircleRadius = 50.0f;
     float maxWanderVariance = 0.0f;
-
-
     float speed = 0.5f;
-    float distanceFromTarget;
 
     void Update() {
-        if(tag != "Tagged Player" && canWander) {
+        if(tag != "Tagged Player") {
             Vector3 currentRandomPoint = WanderCirclePoint();
             Vector3 moveDirection = (currentRandomPoint - transform.position).normalized;
             GetComponent<Rigidbody>().velocity = (moveDirection * speed);

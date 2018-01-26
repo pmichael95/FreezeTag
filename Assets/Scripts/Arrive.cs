@@ -12,14 +12,11 @@ public class Arrive : MonoBehaviour {
     float distanceFromTarget;
 
     void Start() {
-        if(tag == "Tagged Player") {
-            if (!target) {
-                target = GameObject.FindGameObjectWithTag("Target");
-            }
-        }
+        
     }
 
     void Update() {
+        target = GetComponent<Seek>().target;
         //calculate the distance from your target and check it against the various radii, have 
         //used the different speed constants to slow down and eventually stop as they are crossed.
         if(tag == "Tagged Player") {
