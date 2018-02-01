@@ -5,7 +5,7 @@ using UnityEngine;
 public class Wander : MonoBehaviour {
     
     float wanderCircleCenterOffset = 50.0f;
-    float wanderCircleRadius = 50.0f;
+    float wanderCircleRadius = 5.0f;
     float maxWanderVariance = 0.0f;
     float speed = 0.5f;
 

@@ -9,8 +9,7 @@ public class Align : MonoBehaviour {
     Quaternion lookWhereYoureGoing;
 
     Vector3 goalFacing;
-    float orientationRads;
-    float rotationSpeedRads = 2.0f;
+    float rotationSpeedRads = 1.0f;
 
     void Start() {
         if(tag == "Tagged Player") {
@@ -21,13 +20,11 @@ public class Align : MonoBehaviour {
     void Update() {
         target = GetComponent<Seek>().target;
         if (hasTarget) {
-            //Figure out where you want to face, then use the mentioned functions to make it happen
             goalFacing = (target.transform.position - transform.position).normalized;
             lookWhereYoureGoing = Quaternion.LookRotation(goalFacing, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookWhereYoureGoing, rotationSpeedRads);
         }
         else {
-            //When the unit has no target, just have its goal facing be it's transform.forward direction.
             goalFacing = GetComponent<Rigidbody>().velocity.normalized;
             lookWhereYoureGoing = Quaternion.LookRotation(goalFacing, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookWhereYoureGoing, rotationSpeedRads);
