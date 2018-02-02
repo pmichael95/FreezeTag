@@ -26,7 +26,7 @@ public class Arrive : MonoBehaviour {
     }
 
     void Update() {
-        if(GameController.currentState == GameController.ModeState.KINEMATIC && tag == "Tagged Player") {
+        if(GameController.currentState == GameController.ModeState.KINEMATIC) {
             ArriveBehavior();
         }
     }

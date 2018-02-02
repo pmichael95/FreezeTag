@@ -24,7 +24,7 @@ public class Seek : MonoBehaviour {
     }
 
     void Update() {
-        if(GameController.currentState == GameController.ModeState.KINEMATIC) {
+        if(GameController.currentState == GameController.ModeState.KINEMATIC && tag == "Tagged Player") {
             SeekBehavior();
         }
     }
