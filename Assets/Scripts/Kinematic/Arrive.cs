@@ -11,7 +11,7 @@ public class Arrive : MonoBehaviour {
     float speed = 1.0f;
     float nearSpeed = 0.15f;
     float nearRadius = 1.0f;
-    float arrivalRadius = 0.5f;
+    float arrivalRadius = 2.0f;
     float distanceFromTarget;
 
     // The rigidbody of this unit
@@ -38,6 +38,11 @@ public class Arrive : MonoBehaviour {
             distanceFromTarget = (target.transform.position - transform.position).magnitude;
             if (distanceFromTarget > nearRadius) {
                 mRigidBody.velocity = ((target.transform.position - transform.position).normalized * speed);
+            }
+            else if(distanceFromTarget <= arrivalRadius){
+                // Step directly
+                mRigidBody.velocity = Vector3.zero;
+                transform.position = target.transform.position;
             }
             else if (distanceFromTarget > arrivalRadius) {
                 mRigidBody.velocity = ((target.transform.position - transform.position).normalized * nearSpeed);
