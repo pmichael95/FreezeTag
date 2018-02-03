@@ -21,9 +21,9 @@ public class Wander : MonoBehaviour
     void Update() {
         // If we're not the tagged player, allow to wander
         if(tag != "Tagged Player") {
-            Vector3 currentRandomPoint = WanderCirclePoint();
-            Vector3 moveDirection = (currentRandomPoint - transform.position).normalized;
-            mRigidBody.velocity = (moveDirection * speed);
+            Vector3 currRandPt = WanderCirclePoint();
+            Vector3 moveDir = (currRandPt - transform.position).normalized;
+            mRigidBody.velocity = (moveDir * speed);
         }
     }
 

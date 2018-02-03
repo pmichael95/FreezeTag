@@ -11,7 +11,7 @@ public class SteeringFlee : MonoBehaviour
 
     private float maxAccel = 1.0f;
     private Vector3 mVelocity;
-    private float fleeDistanceThreshold = 2.0f;
+    private float fleeDist = 2.0f;
     private Rigidbody mRigidBody;
 
     #endregion
@@ -41,9 +41,9 @@ public class SteeringFlee : MonoBehaviour
     private void SteeringFleeBehavior()
     {
         target = GameObject.FindGameObjectWithTag("Tagged Player");
-        Vector3 fleeDirection = transform.position - target.transform.position;
+        Vector3 fleeDir = transform.position - target.transform.position;
 
-        Vector3 acceleration = maxAccel * fleeDirection.normalized;
+        Vector3 acceleration = maxAccel * fleeDir.normalized;
 
         // Time.deltaTime since not in FixedUpdate
         mVelocity += acceleration * Time.deltaTime;
@@ -53,7 +53,7 @@ public class SteeringFlee : MonoBehaviour
             mVelocity = mVelocity.normalized * maxAccel;
         }
 
-        if (fleeDirection.magnitude < fleeDistanceThreshold)
+        if (fleeDir.magnitude < fleeDist)
         {
             // Step Away even if sidestepping
             transform.Translate(mVelocity * Time.deltaTime, Space.World);
@@ -65,6 +65,6 @@ public class SteeringFlee : MonoBehaviour
         }
 
         // Rotate to face the opposite direction of the tagged player chasing you
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(fleeDirection), 180.0f * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(fleeDir), 180.0f * Time.deltaTime);
     }
 }

@@ -15,7 +15,7 @@ public class SteeringArrive : MonoBehaviour
     private Rigidbody mRigidBody;
 
     // -- Steering Arrive Variables
-    private float distanceThreshold = 1.0f;
+    private float maxDistance = 1.0f;
     private float velocityThreshold = 1.0f;
     private float angleThreshold = 3.0f;
     private float maxAcceleration = 3.0f;
@@ -30,10 +30,10 @@ public class SteeringArrive : MonoBehaviour
     // The maximum rotation acceleration radians
     private float maxRotationAccelerationRads = 2.0f;
     private float maxAngularVelocity = 180.0f;
-    private float maxAngularAccel = 150.0f;
+    private float maxAngleAcceleration = 150.0f;
     private float slowDownOrientation = 90.0f;
     // By default, it's 0, will change after 1st alignment
-    private float angularVelocity = 0.0f;
+    private float angularVel = 0.0f;
 
     #endregion
 
@@ -53,7 +53,20 @@ public class SteeringArrive : MonoBehaviour
     {
         Vector3 targetTransform = target.transform.position;
 
-        int signbit = Vector3.Cross(transform.forward, targetTransform).y > 0 ? 1 : -1;
+        // Acquire the cross product for the sign
+        float crossResult = Vector3.Cross(transform.forward, targetTransform).y;
+
+        int sign_bit = 0;
+        
+        // Set the sign bit
+        if (crossResult > 0)
+        {
+            sign_bit = 1; 
+        }
+        else
+        {
+            sign_bit = -1;
+        }
 
         // Find the angle difference to align to
         float differenceAngle = Vector3.Angle(transform.forward, targetTransform);
@@ -61,23 +74,23 @@ public class SteeringArrive : MonoBehaviour
         if (differenceAngle > maxRotationAccelerationRads)
         {
             float goalVelocity = (maxAngularVelocity * differenceAngle) / slowDownOrientation;
-            float goalAcceleration = (goalVelocity - angularVelocity) / time_to_target;
+            float goalAcceleration = (goalVelocity - angularVel) / time_to_target;
 
-            if (goalAcceleration > maxAngularAccel)
+            if (goalAcceleration > maxAngleAcceleration)
             {
                 // Clamp the goal acceleraiton if it surpasses the maximum
-                goalAcceleration = maxAngularAccel;
+                goalAcceleration = maxAngleAcceleration;
             }
 
             // Multiply by time.deltatime since not in FixedUpdate for consistency
-            angularVelocity += goalAcceleration * Time.deltaTime;
-            if (angularVelocity > maxAngularVelocity)
+            angularVel += goalAcceleration * Time.deltaTime;
+            if (angularVel > maxAngularVelocity)
             {
                 // Clamp the angular velocity if it surpasses the maximum
-                angularVelocity = maxAngularVelocity;
+                angularVel = maxAngularVelocity;
             }
 
-            transform.Rotate(transform.up, angularVelocity * Time.deltaTime * signbit, Space.World);
+            transform.Rotate(transform.up, angularVel * Time.deltaTime * sign_bit, Space.World);
         }
         else
         {
@@ -92,14 +105,14 @@ public class SteeringArrive : MonoBehaviour
 
         Vector3 direction = targetTransform - transform.position;
 
-        if (direction.magnitude < distanceThreshold)
+        if (direction.magnitude < maxDistance)
         {
             // Step directly to target's position
             transform.position = targetTransform;
             mRigidBody.velocity = Vector3.zero;
         }
         else if(mVelocity.magnitude < velocityThreshold){
-            if(direction.magnitude <= distanceThreshold){
+            if(direction.magnitude <= maxDistance){
                 // Step directly to target's position
                 transform.position = targetTransform;
                 mRigidBody.velocity = Vector3.zero;
