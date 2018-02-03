@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteeringSeek : MonoBehaviour {
+public class SteeringSeek : MonoBehaviour
+{
 
+    #region STEERING SEEK VARIABLES
     [Tooltip("The target to seek to.")]
     public GameObject target;
 
     // -- Steering seek variables
-    float acceleration = 1.5f;
-    float maxSpeed = 5.0f;
+    float acceleration = 2.0f;
+    float maxSpeed = 15.0f;
     float distanceFromTarget;
 
     // This unit's rigidbody
     private Rigidbody mRigidBody;
 
     private GameController gController;
+
+    #endregion
 
     // Use this for initialization
     void Start () {
@@ -30,12 +34,50 @@ public class SteeringSeek : MonoBehaviour {
         }
     }
 
+    private void SteeringSeekBehavior()
+    {
+        // If you're the tagged player, actively seek a non-frozen target
+        if (tag == "Tagged Player")
+        {
+            if (! target)
+            {
+                FindTarget();
+            }
+
+            target.tag = "Target";
+
+            if (mRigidBody.velocity.magnitude < maxSpeed)
+            {
+                mRigidBody.velocity = ((target.transform.position - transform.position).normalized * acceleration);
+            }
+            else
+            {
+                mRigidBody.velocity = ((target.transform.position - transform.position).normalized * maxSpeed);
+            }
+        }
+        // If not frozen, actively try to unfreeze characters
+        else if (tag == "Not Frozen")
+        {
+            FindFrozenTarget();
+
+            if (mRigidBody.velocity.magnitude < maxSpeed && target)
+            {
+                mRigidBody.velocity = ((target.transform.position - transform.position).normalized * acceleration);
+            }
+            else if(target)
+            {
+                mRigidBody.velocity = ((target.transform.position - transform.position).normalized * maxSpeed);
+            }
+        }
+    }
+
+    // Finds a non-frozen character, as the tagged player, to target and seek
     private void FindTarget() {
         Vector3 OldDistanceToPlayer = Vector3.zero;
         Vector3 distanceToPlayer = Vector3.zero;
 
         foreach (GameObject player in gController.GetPlayers()) {
-            if (player != this.gameObject) {
+            if (player != this.gameObject && player.gameObject.tag != "Frozen") {
                 if (OldDistanceToPlayer != Vector3.zero) {
                     distanceToPlayer = (player.transform.position - transform.position).normalized;
                     if (distanceToPlayer.magnitude < OldDistanceToPlayer.magnitude) {
@@ -52,15 +94,31 @@ public class SteeringSeek : MonoBehaviour {
         }
     }
 
-    private void SteeringSeekBehavior() {
-        if(tag == "Tagged Player") {
-            FindTarget();
+    // Finds a frozen character to target and seek
+    private void FindFrozenTarget()
+    {
+        Vector3 OldDistanceToPlayer = Vector3.zero;
+        Vector3 distanceToPlayer = Vector3.zero;
 
-            if (mRigidBody.velocity.magnitude < maxSpeed) {
-                mRigidBody.velocity = ((target.transform.position - transform.position).normalized * acceleration);
-            }
-            else {
-                mRigidBody.velocity = ((target.transform.position - transform.position).normalized * maxSpeed);
+        foreach (GameObject player in gController.GetPlayers())
+        {
+            if (player != this.gameObject && player.gameObject.tag == "Frozen")
+            {
+                if (OldDistanceToPlayer != Vector3.zero)
+                {
+                    distanceToPlayer = (player.transform.position - transform.position).normalized;
+                    if (distanceToPlayer.magnitude < OldDistanceToPlayer.magnitude)
+                    {
+                        // Set the new target to the newly tested distance
+                        target = player;
+                    }
+                }
+                else
+                {
+                    OldDistanceToPlayer = (player.transform.position - transform.position).normalized;
+                    // By default set it to the first one visited
+                    target = player;
+                }
             }
         }
     }

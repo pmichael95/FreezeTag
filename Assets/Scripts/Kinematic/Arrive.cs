@@ -2,14 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrive : MonoBehaviour {
+public class Arrive : MonoBehaviour
+{
 
+    #region ARRIVE VARIABLES
     [Tooltip("The target to arrive at.")]
     public GameObject target;
 
+    [Tooltip("True if we are aligning to a target.")]
+    public bool hasTarget;
+
+    // Align variables, where we're looking at, the facing goal, and the rotation's speed
+    Quaternion lookWhereYoureGoing;
+    Vector3 goalFacing;
+    float rotationSpeedRads = 1.5f;
+
     // -- Arrive Variables
     float speed = 1.0f;
-    float nearSpeed = 0.15f;
+    float nearSpeed = 1.0f;
     float nearRadius = 1.0f;
     float arrivalRadius = 2.0f;
     float distanceFromTarget;
@@ -20,18 +30,22 @@ public class Arrive : MonoBehaviour {
     // The seek component for its target
     private Seek seekTarget;
 
+    #endregion
+
     void Start() {
         mRigidBody = GetComponent<Rigidbody>();
         seekTarget = GetComponent<Seek>();
     }
 
     void Update() {
-        if(GameController.currentState == GameController.ModeState.KINEMATIC) {
+        if (GameController.currentState == GameController.ModeState.KINEMATIC)
+        {
+            AlignBehavior();
             ArriveBehavior();
         }
     }
 
-    void ArriveBehavior() {
+    private void ArriveBehavior() {
         // Find the target if it's being seeked
         if (tag == "Tagged Player") {
             target = seekTarget.target;
@@ -45,11 +59,42 @@ public class Arrive : MonoBehaviour {
                 transform.position = target.transform.position;
             }
             else if (distanceFromTarget > arrivalRadius) {
+                // If we're still greater than the arrival radius, continue with velocity
                 mRigidBody.velocity = ((target.transform.position - transform.position).normalized * nearSpeed);
             }
             else {
-                mRigidBody.velocity = new Vector3(0.0f, 0.0f, 0.0f);
+                // Otherwise, end the velocity, we're in
+                mRigidBody.velocity = Vector3.zero;
             }
+        }
+    }
+
+    private void AlignBehavior()
+    {
+        target = seekTarget.target;
+
+        if (target)
+        {
+            hasTarget = true;
+        }
+        else
+        {
+            hasTarget = false;
+        }
+
+        // If there's a target, we use it to set our facing goal
+        if (hasTarget)
+        {
+            goalFacing = (target.transform.position - transform.position).normalized;
+            lookWhereYoureGoing = Quaternion.LookRotation(goalFacing, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookWhereYoureGoing, rotationSpeedRads);
+        }
+        else
+        {
+            // Otherwise, simply use velocity's normalized vector as the goal (face where we're moving)
+            goalFacing = mRigidBody.velocity.normalized;
+            lookWhereYoureGoing = Quaternion.LookRotation(goalFacing, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookWhereYoureGoing, rotationSpeedRads);
         }
     }
     

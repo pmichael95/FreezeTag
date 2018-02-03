@@ -34,17 +34,5 @@ public class BoundMover : MonoBehaviour {
             float newX = -oldPosition.x;
             col.gameObject.transform.position = new Vector3(newX - POS_OFFSET, oldPosition.y, oldPosition.z);
         }
-        /*
-        if(this.gameObject.tag == "Top & Bottom Bounds") {
-            Vector3 oldPos = col.gameObject.transform.position;
-            float newZ = -col.gameObject.transform.position.z;
-            col.gameObject.transform.position = new Vector3(oldPos.x, oldPos.y, newZ - positionOffset);
-        }
-        else if(this.gameObject.tag == "Right & Left Bounds") {
-            Vector3 oldPos = col.gameObject.transform.position;
-            float newX = -col.gameObject.transform.position.x;
-            col.gameObject.transform.position = new Vector3(newX + positionOffset, oldPos.y, oldPos.z);
-        }
-        */
     }
 }
