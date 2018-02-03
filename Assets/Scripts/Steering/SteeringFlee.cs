@@ -42,7 +42,6 @@ public class SteeringFlee : MonoBehaviour
     {
         target = GameObject.FindGameObjectWithTag("Tagged Player");
         Vector3 fleeDirection = transform.position - target.transform.position;
-        SteeringAlignBehavior();
 
         Vector3 acceleration = maxAccel * fleeDirection.normalized;
 
@@ -64,41 +63,8 @@ public class SteeringFlee : MonoBehaviour
             // Face AWay delegate
             transform.Translate(transform.forward * mVelocity.magnitude * Time.deltaTime, Space.World);
         }
-    }
 
-    private void SteeringAlignBehavior()
-    {
-        Vector3 targetTransform = target.transform.position;
-
-        int signbit = Vector3.Cross(transform.forward, targetTransform).y > 0 ? 1 : -1;
-
-        // Find the angle difference to align to
-        float differenceAngle = Vector3.Angle(transform.forward, targetTransform);
-
-        if (differenceAngle > maxRotationAccelerationRads)
-        {
-            float goalVelocity = (maxAngularVelocity * differenceAngle) / slowDownOrientation;
-            float goalAcceleration = (goalVelocity - angularVelocity) / time_to_target;
-
-            if (goalAcceleration > maxAngularAccel)
-            {
-                // Clamp the goal acceleraiton if it surpasses the maximum
-                goalAcceleration = maxAngularAccel;
-            }
-
-            // Multiply by time.deltatime since not in FixedUpdate for consistency
-            angularVelocity += goalAcceleration * Time.deltaTime;
-            if (angularVelocity > maxAngularVelocity)
-            {
-                // Clamp the angular velocity if it surpasses the maximum
-                angularVelocity = maxAngularVelocity;
-            }
-
-            transform.Rotate(transform.up, angularVelocity * Time.deltaTime * signbit, Space.World);
-        }
-        else
-        {
-            transform.rotation = Quaternion.LookRotation(targetTransform);
-        }
+        // Rotate to face the opposite direction of the tagged player chasing you
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(fleeDirection), 180.0f * Time.deltaTime);
     }
 }

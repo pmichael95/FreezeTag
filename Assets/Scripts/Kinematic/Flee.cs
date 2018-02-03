@@ -50,7 +50,6 @@ public class Flee : MonoBehaviour {
         {
             if (Vector3.Angle(transform.forward, fleeDirection) <= angleThreshold)
             {
-                // Rotate and then move away
                 transform.Translate(transform.forward * seekSpeed * Time.deltaTime, Space.World);
             }
         }
