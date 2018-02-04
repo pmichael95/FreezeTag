@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour
         if(!modeText) {
             modeText = GameObject.Find("CurrentMode").GetComponent<Text>();
         }
+        // Default state is KINEMATIC movement
         currentState = ModeState.KINEMATIC;
 	}
 

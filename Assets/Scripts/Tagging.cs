@@ -32,6 +32,12 @@ public class Tagging : MonoBehaviour {
             // Unfreeze it and change its tag
             this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             this.tag = "Not Frozen";
+            if (GameController.currentState == GameController.ModeState.KINEMATIC)
+            {
+                // In the event of this being the Kinematic movement...
+                // Reset the target of the not frozen unit to null, to allow to Wander again
+                col.GetComponent<Seek>().target = null;
+            }
             // Now handle GameController settings changes
             GameController.numNotFrozenExceptTagged++;
             if (GameController.lastFrozenCharacter == this.gameObject)

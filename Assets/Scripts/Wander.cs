@@ -8,7 +8,7 @@ public class Wander : MonoBehaviour
     #region WANDER VARIABLES
     float wanderCircleCenterOffset = 50.0f;
     float wanderCircleRadius = 5.0f;
-    float maxWanderVariance = 0.0f;
+    float maxWanderVariance = 10.0f;
     float speed = 0.5f;
     private Rigidbody mRigidBody;
     #endregion
