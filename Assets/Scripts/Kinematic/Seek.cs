@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Seek : MonoBehaviour
 {
+    #region ABOUT
+    /*
+     * This script's intended purpose is to provide Kinematic Seek behavior to units.
+     * The tagged player will seek the closest unit at the time of finding a target.
+     * Similarly for not frozen units, but they will seek a frozen unit to unfreeze.
+     */
+    #endregion
 
     #region SEEK VARIABLES
     [Tooltip("The target to seek.")]

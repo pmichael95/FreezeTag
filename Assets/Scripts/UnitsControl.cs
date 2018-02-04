@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitsControl : MonoBehaviour {
+public class UnitsControl : MonoBehaviour
+{
 
+    #region ABOUT
     /*
-     * This script's intended purpose is to initiate an effect to tell that a unit is frozen.
-     * Additionally, it handles unfreezing, if the unit originally is not frozen.
+     * This script's intended purpose is to freeze a unit when its tag changes.
+     * This is not dependent on the game state.
      */
+    #endregion
+
     #region UNITS CONTROL VARIABLES
     private Rigidbody mRigidBody;
 

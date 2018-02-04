@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Wander : MonoBehaviour
 {
+    #region ABOUT
+    /*
+     * This script's intended purpose is to add a 'Wander' movement AI to all units.
+     * In fact, as long as a unit is not frozen and is not the tagged player, they will wander
+     * to random points in the play area, distinctly.
+     */ 
+    #endregion
 
     #region WANDER VARIABLES
     float wanderCircleCenterOffset = 50.0f;
@@ -20,7 +27,7 @@ public class Wander : MonoBehaviour
 
     void Update() {
         // If we're not the tagged player, allow to wander
-        if(tag != "Tagged Player") {
+        if(tag != "Tagged Player" && tag != "Frozen") {
             Vector3 currRandPt = WanderCirclePoint();
             Vector3 moveDir = (currRandPt - transform.position).normalized;
             mRigidBody.velocity = (moveDir * speed);

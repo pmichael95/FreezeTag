@@ -5,6 +5,14 @@ using UnityEngine;
 public class Arrive : MonoBehaviour
 {
 
+    #region ABOUT
+    /*
+     * This script's intended purpose is to provide Kinematic Arrive behavior to units.
+     * We try to arrive (after aligning) to a target if we're the tagged player.
+     * The target is initially the closest unit at a given time.
+     */ 
+    #endregion
+
     #region ARRIVE VARIABLES
     [Tooltip("The target to arrive at.")]
     public GameObject target;

@@ -3,7 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Tagging : MonoBehaviour {
+public class Tagging : MonoBehaviour
+{
+
+    #region ABOUT
+    /*
+     * This script's intended purpose is to handle tagging/untagging of units based on cases.
+     * The first case is when a unit that is NOT the tagged player and is not frozen, collides with the tagged player.
+     * At that point, this unit is frozen.
+     * Similarly, a frozen unit colliding with a non-frozen unit will be unfrozen.
+     * (Additionally, this script uses GameController variables for target resetting and the likes.)
+     */
+    #endregion
 
     void OnTriggerEnter(Collider col) {
         // If this unit collides with the tagged player...

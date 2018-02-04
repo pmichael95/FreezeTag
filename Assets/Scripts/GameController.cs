@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    #region ABOUT
+    /*
+     * This script's intended purpose is to centralize a lot of core components for ease of use.
+     * It holds the Mode State for the game (Kinematic/Steering), playable characters array, etc.
+     * It also tracks the # of frozen units and which ones were last frozen/tagged.
+     * This is to allow unfreezing and re-assigning the 'Tagged' tag when all units are frozen other than the tagged unit.
+     */
+    #endregion
 
     #region GAME CONTROLLER VARIABLES
     [Tooltip("All possible players (units) in the game.")]

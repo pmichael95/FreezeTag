@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class SteeringFlee : MonoBehaviour
 {
+    #region ABOUT
+    /*
+     * This script's intended purpose is provide Steering Flee behavior to units being pursued.
+     * If a unit is being chased/pursued by the tagged player, it will align in the opposite direction, and flee.
+     * Alignment is handled thanks to transform.rotation
+     */
+    #endregion
 
     #region STEERING FLEE VARIABLES
     [Tooltip("The tagged player to flee from.")]

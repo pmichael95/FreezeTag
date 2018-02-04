@@ -2,7 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundMover : MonoBehaviour {
+public class BoundMover : MonoBehaviour
+{
+
+    #region ABOUT
+    /*
+     * This script's intended purpose is to move units when they collide with the edges of the play area
+     * to the opposite end of the area, accordingly.
+     */
+    #endregion
 
     // Offset for the position when moving units
     const float POS_OFFSET = 0.5f;

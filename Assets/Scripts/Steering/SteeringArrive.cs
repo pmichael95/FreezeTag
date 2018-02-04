@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class SteeringArrive : MonoBehaviour
 {
+    #region ABOUT
+    /*
+     * This script's intended purpose is to provide Steering Arrive behavior to units.
+     * We try to arrive to the 'target' given constraints/variables for speed and the likes.
+     * Additionally, we also have a Steering Align function here that is called when using Arrive.
+     */ 
+    #endregion
 
     #region STEERING ARRIVE VARIABLES
     [Tooltip("The target to arrive to.")]
@@ -44,6 +51,9 @@ public class SteeringArrive : MonoBehaviour
     }
 
 	void Update () {
+        // Called only when the mode state is STEERING
+        // AND if we're the tagged player OR the number of frozen units except the tagged unit is less than the maximum number of players allowed (other than tagged unit)
+        // i.e. if there's a unit to seek/arrive to that is frozen, for example.
         if (GameController.currentState == GameController.ModeState.STEERING && (tag == "Tagged Player" || GameController.numNotFrozenExceptTagged < GameController.MAX_NUM_PLAYERS_EXCEPT_TAGGED)) {
             SteeringArriveBehavior();
         }

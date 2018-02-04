@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Flee : MonoBehaviour {
 
+    #region ABOUT
+    /*
+     * This script's intended purpose is to provide Kinematic Flee behavior to units.
+     * If this unit is the targetted player, he will align in the opposite direction of the tagged player, and flee.
+     * Alignment is done thanks to transform.rotation
+     */
+    #endregion
+
     [Tooltip("The target to flee from.")]
     public GameObject target;
 

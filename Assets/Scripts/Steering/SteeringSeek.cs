@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class SteeringSeek : MonoBehaviour
 {
+    #region ABOUT
+    /*
+     * This script's intended purpose is to provide Steering Seek behavior to units.
+     * The tagged played will seek a Not Frozen unit that is closest to him at a given time.
+     * Additionally, the not frozen units will seek frozen units to unfreeze, that are closer to them at a given time.
+     */
+    #endregion
 
     #region STEERING SEEK VARIABLES
     [Tooltip("The target to seek to.")]
